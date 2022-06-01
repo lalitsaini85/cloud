@@ -1,0 +1,156 @@
+docker images
+docker pull <imageName>:tag
+docker run -it -d imageName
+docker stop _ _ _ _
+docker ps
+docker ps -a
+docker run -it -d imageName
+In container
+ docker exec -it <id> bash
+ service apache2 start
+ service apache2 status
+ apt-get update
+ apt update
+ apt install apache2
+docker commit <id4d> reponame
+docker push reponame
+docker kill id4d
+docker rm cont_id
+docker rmi imge_id (to remove image)
+
+//////////////////////////////////////////
+
+$ vi Dockerfile
+               insert mode press i // TO SAVE AND QUIT press escape then :q or :wq
+$FROM ubuntu:18.04
+$RUN apt update
+$RUN apt install -y apache2
+$RUN apt install -y apache2.utils
+$EXPOSE 80
+$CMD ["apache2ctl","-D","FOREGROUND"]
+
+press escape then :wq
+
+$docker build --tag image1:v1 .
+
+To Run script: 
+$docker run --name image1:v3 -it -d -p 9090:80 image1:v3
+
+
+///////////////////////////////////////////////////////
+
+docker volume --help
+docker volume create volName
+docker volume ls
+docker volume inspect volName
+docker volume prune
+docker volume ls
+
+
+docker image inspect mysql |less
+
+docker run -d --name mysql2 -e MYSQL_ALLOW_EMPTY_PASSWORD=true mysql
+
+to enter in container loop: docker exec -it <cont_id> bash
+#mysql
+press enter
+mysql>show databases;
+mysql>create database dbName;
+mysql>exit
+#exit
+
+docker rm -f <cont_id> to remove forcefully(-f)
+
+run again:
+docker run -d --name mysql2 -e MYSQL_ALLOW_EMPTY_PASSWORD=true mysql
+
+to enter in container loop: docker exec -it <cont_id> bash
+#mysql
+press enter
+mysql>show databases;
+mysql>exit
+#exit
+
+docker inspect <cont_id>
+
+docker run -itd -v <old_Vol>:/var/lib/mysql mysql
+docker exec -it <cont_id> bash
+in container: mysql
+
+//////////////////////////////////////////
+
+Docker Compose:
+$vi docker-compose.yml //YAML (yet Ain't markup language) // nginx is a operating system
+version: '3'
+services:
+	webapp1:
+		image: nginx
+		ports:
+			- "8000:80"
+
+
+after saving run following command to run vi file:
+docker-compose up -d
+
+docker network ls
+docker-compose --help
+docker-compose down
+
+	webapp1:
+		image: nginx
+		ports:
+			- "8001:80"
+
+docker-compose up -d
+
+mv docker-compose.yml docker-compose2.yml
+ls
+docker-compose -f docker-compose2.yml up -d
+docker-compose -f docker-compose2.yml down
+
+
+////////////////////////////////////////
+
+Network:
+  container:
+    3 n/w
+ bridge, Host, None.
+
+Commands:
+docker network
+docker network ls
+docker network inspect bridge
+docker network inspect host
+docker network inspect none
+
+docker ps
+docker run -itd ubuntu:18.04
+docker network inspect bridge // inspect container with respect to bridge default.
+docker network create -d bridge <nw name>// we cannnot create host or none network
+docker network ls
+
+
+map network with ubuntu image
+docker run -itd --network <nw name> ubuntu:18.04 bash
+docker inspect <nwName_id> // To check wheather container id mapped or not with nwName
+ 
+docker run -itd --network host ubuntu:18.04 bash
+docker run -itd --network none ubuntu:18.04 bash
+ifconfig
+
+check with centos:
+
+docker run -itd centos
+docker network inspect bridge // inspect container with respect to bridge default.
+docker network create -d bridge <nw name>// we cannnot create host or none network
+docker network ls
+
+
+map network with ubuntu image
+docker run -itd --network <nw name> centos
+docker inspect <nwName_id> // To check wheather container id mapped or not with nwName
+ 
+docker run -itd --network host centos bash
+docker run -itd --network none centos bash
+ifconfig
+
